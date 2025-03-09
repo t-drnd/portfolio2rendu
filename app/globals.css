@@ -5,6 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: #f9fafb;
+}
+
+.fixed {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
 
 
 .font-kodchasan {
