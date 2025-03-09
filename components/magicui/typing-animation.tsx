@@ -1,90 +1,39 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { motion, MotionProps } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import React from "react";
 
-interface TypingAnimationProps extends MotionProps {
+interface TypingAnimationProps {
   children: string;
   className?: string;
   duration?: number;
-  delay?: number;
-  as?: React.ElementType;
-  startOnView?: boolean;
 }
 
 export function TypingAnimation({
   children,
   className,
-  duration = 100,
-  delay = 0,
-  as: Component = "div",
-  startOnView = false,
+  duration = 50,
   ...props
 }: TypingAnimationProps) {
-  const MotionComponent = motion.create(Component, {
-    forwardMotionProps: true,
-  });
-
-  const [displayedText, setDisplayedText] = useState<string>("");
-  const [started, setStarted] = useState(false);
-  const elementRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!startOnView) {
-      const startTimeout = setTimeout(() => {
-        setStarted(true);
-      }, delay);
-      return () => clearTimeout(startTimeout);
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setStarted(true);
-          }, delay);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [delay, startOnView]);
-
-  useEffect(() => {
-    if (!started) return;
-
-    let i = 0;
-    const typingEffect = setInterval(() => {
-      if (i < children.length) {
-        setDisplayedText(children.substring(0, i + 1));
-        i++;
-      } else {
-        clearInterval(typingEffect);
-      }
-    }, duration);
-
-    return () => {
-      clearInterval(typingEffect);
-    };
-  }, [children, duration, started]);
-
   return (
-    <MotionComponent
-      ref={elementRef}
-      className={cn(
-        "text-4xl font-bold leading-[5rem] tracking-[-0.02em]",
-        className
-      )}
+    <motion.p
+      className={className}
       {...props}
+      initial={{ width: "0%" }}
+      animate={{
+        width: "100%",
+      }}
+      transition={{
+        duration: children.length * (duration / 1000),
+        ease: "linear",
+        repeat: 0,
+      }}
+      style={{
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+      }}
     >
-      {displayedText}
-    </MotionComponent>
+      {children}
+    </motion.p>
   );
 }
