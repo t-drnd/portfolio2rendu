@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #f9fafb;
 }
@@ -13,7 +19,6 @@ body {
   position: fixed !important;
   z-index: 9999 !important;
 }
-
 
 .font-kodchasan {
   font-family: "Kodchasan", sans-serif;
@@ -94,4 +99,8 @@ body {
   body {
     @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
