@@ -26,14 +26,14 @@
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.0",
     "@types/node": "20.8.3",
     "@types/react": "18.2.25",
     "@types/react-dom": "18.2.11",
     "@types/tailwindcss": "^3.1.0",
     "autoprefixer": "10.4.16",
     "css-loader": "^7.1.2",
-    "eslint": "^9",
+    "eslint": "^9.22.0",
     "eslint-config-next": "15.1.7",
     "mini-css-extract-plugin": "^2.9.2",
     "postcss": "8.4.31",
