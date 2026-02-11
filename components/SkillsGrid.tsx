@@ -86,7 +86,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
                   {
                     scale: 1.03,
                     boxShadow:
-                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                      "0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 4px 16px 0 rgba(0, 0, 0, 0.1)",
                     duration: 0,
                     immediateRender: false,
                   },
@@ -104,7 +104,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
               cardElement,
               {
                 boxShadow:
-                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  "0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 4px 16px 0 rgba(0, 0, 0, 0.1)",
                 duration: 0.3,
                 ease: "power2.out",
               },
@@ -180,17 +180,40 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
   return (
     <div
       ref={containerRef}
-      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ${className}`}
+      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 ${className}`}
       style={{ perspective: "1000px" }}
     >
       {skills.map((skill) => (
         <div
           key={skill.slug}
-          ref={(el) => setCardRef(skill.slug, el)}
-          className="relative w-full aspect-square cursor-pointer"
-          style={{ transformStyle: "preserve-3d" }}
-          onMouseEnter={() => handleEnter(skill.slug)}
-          onMouseLeave={() => handleLeave(skill.slug)}
+          ref={(el) => {
+            setCardRef(skill.slug, el);
+            if (el) {
+              el.style.zIndex = "1";
+            }
+          }}
+          className="relative w-full aspect-square cursor-pointer overflow-hidden"
+          style={{ 
+            transformStyle: "preserve-3d",
+            isolation: "isolate",
+            zIndex: 1,
+          }}
+          onMouseEnter={() => {
+            // Augmenter z-index au hover pour éviter chevauchement
+            const card = cardRefs.current.get(skill.slug);
+            if (card) {
+              card.style.zIndex = "10";
+            }
+            handleEnter(skill.slug);
+          }}
+          onMouseLeave={() => {
+            // Réinitialiser z-index
+            const card = cardRefs.current.get(skill.slug);
+            if (card) {
+              card.style.zIndex = "1";
+            }
+            handleLeave(skill.slug);
+          }}
           onFocus={() => handleEnter(skill.slug)}
           onBlur={() => handleLeave(skill.slug)}
           onClick={() => handleClick(skill.slug)}
@@ -212,7 +235,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
             {/* Face front */}
             <div
               data-card-front
-              className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg bg-black/[0.7] dark:bg-white/[0.1] text-white border border-neutral-800 dark:border-neutral-700"
+              className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg bg-gray-100/70 dark:bg-gray-800/70 border border-gray-300/60 dark:border-gray-600/60 shadow-xl"
               style={{
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
@@ -221,7 +244,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
                   : "rotateY(0deg)",
               }}
             >
-              <span className="text-sm font-medium text-center px-2">
+              <span className="text-sm font-semibold text-center px-2 text-gray-700 dark:text-gray-200">
                 {skill.name}
               </span>
             </div>
@@ -229,7 +252,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
             {/* Face back */}
             <div
               data-card-back
-              className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg bg-black/[0.7] dark:bg-white/[0.1] border border-neutral-800 dark:border-neutral-700"
+              className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg bg-gray-100/70 dark:bg-gray-800/70 border border-gray-300/60 dark:border-gray-600/60 shadow-xl"
               style={{
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
@@ -242,7 +265,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
                 <img
                   src={`/logos/${skill.slug}.svg`}
                   alt={skill.name}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain filter dark:brightness-0 dark:invert"
                   onError={(e) => {
                     // Fallback si l'image n'existe pas
                     const target = e.target as HTMLImageElement;
@@ -250,7 +273,7 @@ export function SkillsGrid({ skills, className = "" }: SkillsGridProps) {
                     const parent = target.parentElement;
                     if (parent && !parent.querySelector(".fallback-text")) {
                       const fallback = document.createElement("span");
-                      fallback.className = "fallback-text text-xs text-white opacity-70 text-center";
+                      fallback.className = "fallback-text text-xs text-gray-800 dark:text-white opacity-80 text-center font-medium";
                       fallback.textContent = skill.name;
                       parent.appendChild(fallback);
                     }

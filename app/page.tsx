@@ -495,11 +495,11 @@ export function CardDemo({
 
 export default function Home() {
   return (
-    <AuroraBackground>
-      <div className="min-h-screen flex flex-col">
+    <AuroraBackground className="overflow-x-hidden">
+      <div className="min-h-screen flex flex-col w-full">
         <Navbar />
         <HeroSection />
-        <footer className="w-full py-12 bg-black dark:bg-neutral-900 mt-auto">
+        <footer className="w-full py-12 bg-black dark:bg-neutral-900 mt-auto -mx-[50vw] relative left-1/2 right-1/2" style={{ width: '100vw' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
