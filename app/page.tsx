@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import { Timeline } from "@/components/ui/timeline";
+import { SkillsGrid } from "@/components/SkillsGrid";
 import emailjs from "@emailjs/browser";
 
 export function TypingAnimationDemo() {
@@ -52,7 +53,20 @@ function Navbar({ className }: { className?: string }) {
 // Définir les données de la timeline
 const timelineData = [
   {
-    title: "2023-2025",
+    title: "2026",
+    content: (
+      <div className="prose prose-sm dark:prose-invert">
+        <h4 className="text-xl font-bold">Développeur Freelance</h4>
+        <p className="text-neutral-600 dark:text-neutral-400">
+          Je propose mes services en freelance en parallèle de mes études, pour créer des sites et
+          applications web modernes, performantes et adaptées aux besoins des
+          clients.
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "2023-2026",
     content: (
       <div className="prose prose-sm dark:prose-invert">
         <h4 className="text-xl font-bold">
@@ -81,7 +95,27 @@ const timelineData = [
   },
 ];
 
+// Définir les compétences techniques avec leurs slugs
+const technicalSkills = [
+  { name: "HTML", slug: "html" },
+  { name: "CSS", slug: "css" },
+  { name: "JavaScript", slug: "javascript" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "React", slug: "react" },
+  { name: "Next.js", slug: "nextjs" },
+  { name: "Tailwind CSS", slug: "tailwindcss" },
+  { name: "PHP", slug: "php" },
+  { name: "Symfony", slug: "symfony" },
+  { name: "Git", slug: "git" },
+  { name: "MySQL", slug: "mysql" },
+];
+
 const HeroSection = () => {
+  const handleScrollToTimeline = () => {
+    const section = document.getElementById("timeline");
+    section?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="relative">
       {/* Section initiale centrée verticalement */}
@@ -105,10 +139,14 @@ const HeroSection = () => {
           <TypingAnimation
             className="font-extralight text-base md:text-4xl py-4"
             duration={50}
+            preserveLayout
           >
-            Full Stack Developer & UI/UX Designer
+            Full Stack Developer
           </TypingAnimation>
-          <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 mt-4">
+          <button
+            className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 mt-4"
+            onClick={handleScrollToTimeline}
+          >
             Découvrez mon portfolio !
           </button>
         </motion.div>
@@ -139,30 +177,7 @@ const HeroSection = () => {
               <h3 className="text-2xl font-bold text-black dark:text-white mb-8">
                 Compétences Techniques
               </h3>
-              <div className="flex flex-wrap gap-3">
-                {[
-                  "HTML",
-                  "CSS",
-                  "JavaScript",
-                  "TypeScript",
-                  "React",
-                  "Next.js",
-                  "Tailwind CSS",
-                  "PHP",
-                  "Symfony",
-                  "Git",
-                  "MySQL",
-                ].map((skill) => (
-                  <motion.span
-                    key={skill}
-                    className="px-4 py-2 bg-black/[0.7] dark:bg-white/[0.1] text-white rounded-full text-sm font-medium hover:scale-110 transition-transform cursor-default"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
+              <SkillsGrid skills={technicalSkills} />
             </motion.div>
 
             {/* Soft Skills */}
@@ -492,7 +507,7 @@ export default function Home() {
                   Thomas Durand
                 </h3>
                 <p className="text-gray-400">
-                  Développeur Full Stack & UI/UX Designer
+                  Développeur Full Stack
                 </p>
               </div>
               <div>

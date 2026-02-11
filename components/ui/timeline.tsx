@@ -51,7 +51,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           Mon parcours
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
-          Je suis étudiant à l'IIM Digital School et je vous présente mon
+          Je suis étudiant à l'IIM Digital School ainsi que freelance en parallèle et je vous présente mon
           parcours académique et professionnel.
         </p>
       </div>
